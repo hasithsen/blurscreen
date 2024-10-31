@@ -9,7 +9,10 @@ class BlurScreen:
         self.root.title("BlurScreen Control")
         
         self.select_button = tk.Button(root, text="Enable Select Mode", command=self.enable_select_mode)
-        self.select_button.pack(pady=20)
+        self.select_button.pack(pady=10)
+
+        self.clear_button = tk.Button(root, text="Remove All Blurs", command=self.remove_blur_windows)
+        self.clear_button.pack(pady=10)
 
         self.select_mode = False
         self.select_overlay = None
@@ -22,7 +25,7 @@ class BlurScreen:
         if not self.select_mode:
             self.select_mode = True
             self.select_overlay = tk.Toplevel(self.root)
-            self.select_overlay.withdraw() # Hide the window
+            self.select_overlay.withdraw()  # Hide the window
             self.select_overlay.attributes('-fullscreen', True)  # Fullscreen to cover the screen
             self.select_overlay.attributes('-alpha', 0.5)  # Transparent overlay
             self.select_overlay.bind("<Button-1>", self.on_button_press)
@@ -65,7 +68,7 @@ class BlurScreen:
     def create_blur_overlay(self, x1, y1, x2, y2):
         # Create a new transparent window for the blur effect
         blur_window = tk.Toplevel(self.root)
-        blur_window.withdraw() # Hide the window
+        blur_window.withdraw()  # Hide the window
         blur_window.geometry(f"{x2-x1}x{y2-y1}+{x1}+{y1}")
         blur_window.overrideredirect(True)  # Remove window decorations
         blur_window.attributes('-alpha', 1.0)  # Fully opaque
@@ -89,6 +92,13 @@ class BlurScreen:
 
         # Show the window after configuration
         blur_window.deiconify()
+
+    def remove_blur_windows(self):
+        # Destroy all blur windows and clear the list
+        for window in self.blur_windows:
+            window.destroy()
+        self.blur_windows.clear()
+        print("All blur windows removed.")
 
 
 # Create the main application window
