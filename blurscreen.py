@@ -8,11 +8,17 @@ class BlurScreen:
         self.root = root
         self.root.title("BlurScreen Control")
         
-        self.select_button = tk.Button(root, text="Enable Select Mode", command=self.enable_select_mode)
+        # Enable Select Mode button with Ctrl+E shortcut
+        self.select_button = tk.Button(root, text="Enable Select Mode (Ctrl+E)", command=self.enable_select_mode)
         self.select_button.pack(pady=10)
 
-        self.clear_button = tk.Button(root, text="Remove All Blurs", command=self.remove_blur_windows)
+        # Remove All Blurs button with Ctrl+R shortcut
+        self.clear_button = tk.Button(root, text="Remove All Blurs (Ctrl+R)", command=self.remove_blur_windows)
         self.clear_button.pack(pady=10)
+
+        # Keyboard shortcuts
+        self.root.bind('<Control-e>', lambda event: self.enable_select_mode())
+        self.root.bind('<Control-r>', lambda event: self.remove_blur_windows())
 
         self.select_mode = False
         self.select_overlay = None
